@@ -2,7 +2,7 @@ import hashlib
 
 
 class Block:
-    def __init__(self, data: str, previous_hash, previous_block, next_block):
+    def __init__(self, data, previous_hash, previous_block, next_block):
         self.data = data
         self.previous_hash = previous_hash
         self.previous_block = previous_block
@@ -10,7 +10,7 @@ class Block:
         self.hash = self.calc_hash()
 
     def calc_hash(self):
-        to_hash = self.data + self.previous_hash
+        to_hash = str(self.data) + self.previous_hash
         return hashlib.sha256(to_hash.encode()).hexdigest()
 
     def get_data(self):
@@ -22,7 +22,7 @@ class Block:
 
 class BlockChain:
     def create_genesis_block(self):
-        return Block("Genesis Block", "0", None, None)
+        return Block(0, "0", None, None)
 
     def __init__(self):
         self.head = self.create_genesis_block()
@@ -33,6 +33,14 @@ class BlockChain:
         self.tail.next_block = new_block
         self.tail = new_block
 
+    def calculation(self):
+        current = self.head
+        result = 0
+        while current:
+            result = current.get_data()+result
+            current = current.next_block
+        return result
+
     def assert_correct(self):
         current = self.head
         while current.next_block:
@@ -42,21 +50,21 @@ class BlockChain:
             current = next_block
         return True
 
+
 def main():
     blockchain = BlockChain()
-    blockchain.add_block("First Block")
-    blockchain.add_block("Second Block")
-    blockchain.add_block("Third Block")
-    print(blockchain.assert_correct())
+    blockchain.add_block(1)
+    blockchain.add_block(-1)
+    blockchain.add_block(-1)
+    blockchain.add_block(5)
 
-    # corrupt a block
-    blockchain.head.next_block.data = "Corrupted Block"
-    print(blockchain.assert_correct())
+    print(blockchain.calculation())
+    # print(blockchain.assert_correct())
 
-
+    # # corrupt a block
+    # blockchain.head.next_block.data = "Corrupted Block"
+    # print(blockchain.assert_correct())
 
 
 if __name__ == "__main__":
     main()
-
-

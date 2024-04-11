@@ -1,9 +1,23 @@
 from phe import paillier
+import Blockchain
 
+
+class Election:
+
+    def __init__(self):
+        self.global_blockChain = Blockchain()
+
+    def get_global_blockChain(self):
+        return self.global_blockChain
+
+    def add_localBlockChain(self):
+        pass
+
+
+# Election()
+# localblockChain1 = Blockchain()
 pk, pv = paillier.generate_paillier_keypair()
-
-f = pk.encrypt(4)
 t = pk.encrypt(2)
-s = f+t
-print(s)
-print(pv.decrypt(s))
+print(t)
+f = pk.encrypt(4)
+print(pv.decrypt(t+f))
