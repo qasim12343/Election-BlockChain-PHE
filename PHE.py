@@ -52,6 +52,8 @@ def main():
             break
         try:
             city_code, vot = map(int, inp.split())
+            if vot != 1 & vot != -1:
+                raise Exception()
             if city_code == 2:
                 bc = lbc2
             elif city_code == 3:
