@@ -16,7 +16,6 @@ class Election:
         bc = BlockChain("L")
         bc.add_block(self.pk.encrypt(0))
         self.get_global_blockChain().add_block(bc)
-
         return bc
 
     def vote(self, local_bc, vot: int):
@@ -36,7 +35,7 @@ def main():
     lbc4 = Elc.add_localBlockChain()
     lbc5 = Elc.add_localBlockChain()
     pv = Elc.get_pv()
-    number_of_bc = Elc.get_bc_number()
+    number_of_bc = Elc.get_global_blockChain().get_bc_number()
     while True:
         bc = lbc1
         inp = input(
@@ -45,8 +44,8 @@ def main():
             break
         try:
             city_code, vot = map(int, inp.split())
-            if vot != 1 & vot != -1:
-                raise Exception()
+            # if (vot != 1 & vot != -1):
+            #     raise Exception()
             if city_code == 2:
                 bc = lbc2
             elif city_code == 3:

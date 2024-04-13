@@ -21,11 +21,9 @@ class Block:
 
 
 class BlockChain:
-    def create_genesis_block(self):
-        return Block(0, "0", None, None)
 
     def __init__(self, typ):
-        self.head = self.create_genesis_block()
+        self.head = Block(0, "0", None, None)
         self.tail = self.head
         self.typ = typ
         self.number = 1
@@ -49,3 +47,12 @@ class BlockChain:
                 result = current.data.calculation() + result
             current = current.next_block
         return result
+
+    def assert_correct(self):
+        current = self.head
+        while current.next_block:
+            next_block = current.next_block
+            if current.calc_hash() != next_block.previous_hash:
+                return False
+            current = next_block
+        return True
