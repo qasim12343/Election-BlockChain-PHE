@@ -28,11 +28,16 @@ class BlockChain:
         self.head = self.create_genesis_block()
         self.tail = self.head
         self.typ = typ
+        self.number = 1
 
     def add_block(self, data):
         new_block = Block(data, self.tail.get_hash(), self.tail, None)
         self.tail.next_block = new_block
         self.tail = new_block
+        self.number += 1
+
+    def get_bc_number(self):
+        return self.number
 
     def calculation(self):
         current = self.head.next_block

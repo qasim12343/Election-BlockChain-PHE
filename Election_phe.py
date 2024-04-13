@@ -8,7 +8,6 @@ class Election:
     def __init__(self):
         self.global_blockChain = BlockChain("G")
         self.pk, self.pv = paillier.generate_paillier_keypair()
-        self.count_bc = 0
 
     def get_global_blockChain(self):
         return self.global_blockChain
@@ -17,18 +16,12 @@ class Election:
         bc = BlockChain("L")
         bc.add_block(self.pk.encrypt(0))
         self.get_global_blockChain().add_block(bc)
-        self.count_bc += 1
-        return bc
 
-    def get_bc_number(self):
-        return self.count_bc
+        return bc
 
     def vote(self, local_bc, vot: int):
         encrypted_vote = self.pk.encrypt(vot)
         local_bc.add_block(encrypted_vote)
-
-    def cal_votes(self):
-        pass
 
     def get_pv(self):
         return self.pv
